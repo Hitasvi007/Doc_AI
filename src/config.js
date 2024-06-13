@@ -1,0 +1,1 @@
+export const SERVER_URL='https://doc-ai-api.smartpulse.cloud/v1'
