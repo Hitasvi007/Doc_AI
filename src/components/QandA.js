@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import Home from './Navbar.js';
-import { TextField, Button, Container, CircularProgress, FormGroup, Checkbox } from '@mui/material';
-import { FormControlLabel, FormLabel, Card, CardContent, CardHeader, Box } from '@mui/material';
+import { TextField, Button, Container, CircularProgress, Box } from '@mui/material';
+import { Card, CardContent, CardHeader } from '@mui/material';
 import { useAuth } from '../AuthContext.js';
 
 function QandA() {
@@ -37,38 +37,35 @@ function QandA() {
         const { name, value } = event.target;
         setFormData((prevData) => ({
             ...prevData,
-            [name]: value,
+            [name]: (name === 'query' || name === 'input_context') ? [value] : value,
         }));
     };
+
     const { credentials } = useAuth();
     const { username, password } = credentials;
-    // console.log({username});
-    const creds =btoa(`${username}:${password}`);
+    const creds = btoa(`${username}:${password}`);
+
     const handleSubmit = async (event) => {
         event.preventDefault();
         setIsLoading(true);
         try {
-          const response = await fetch(`https://dev-doc-ai-api.smartpulse.cloud/v2/qa_questions`, {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-              'Accept': 'application/json',
-              'Authorization': `Basic ${creds}`
-            },
-            body: JSON.stringify(formData),
-          });
-          if (!response.ok) {
-            // Handle case where credentials are incorrect
-            if (response.status === 401) {
-              // Show popup or alert for wrong credentials
-              alert('Invalid credentials. Please check your username and password.');
-            } else {
-              // Handle other HTTP errors
-              alert('Error sending form data');
+            const response = await fetch(`https://dev-doc-ai-api.smartpulse.cloud/v2/qa_questions`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json',
+                    'Authorization': `Basic ${creds}`
+                },
+                body: JSON.stringify(formData),
+            });
+            if (!response.ok) {
+                if (response.status === 401) {
+                    alert('Invalid credentials. Please check your username and password.');
+                } else {
+                    alert('Error sending form data');
+                }
+                throw new Error('Network response was not ok');
             }
-            throw new Error('Network response was not ok');
-          }
-      
             if (response.ok) {
                 setIsLoading(false);
                 const data = await response.json();
@@ -164,7 +161,7 @@ function QandA() {
                                     name="query"
                                     type="text"
                                     label="Query"
-                                    value={formData.query}
+                                    value={formData.query[0] || ''}
                                     onChange={handleInputChange}
                                     variant="outlined"
                                     margin="normal"
@@ -204,7 +201,7 @@ function QandA() {
                                     name="input_context"
                                     type="text"
                                     label="Input Context"
-                                    value={formData.input_context}
+                                    value={formData.input_context[0] || ''}
                                     onChange={handleInputChange}
                                     variant="outlined"
                                     margin="normal"
@@ -340,4 +337,4 @@ function QandA() {
     );
 }
 
-export default QandA ;
+export default QandA;

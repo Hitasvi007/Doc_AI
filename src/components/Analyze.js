@@ -84,13 +84,13 @@ function Analyze() {
     }
   };
 
-  const handleDownloadJSON = () => {
-    const url = 'https://api.example.com/data'; // Replace with your JSON API endpoint
-    const saveDirectory = '/path/to/save/directory'; // Replace with your desired save directory
-    const transactionId = '1234'; // Replace with a unique identifier or transaction ID
+  // const handleDownloadJSON = () => {
+  //   const url = 'https://api.example.com/data'; // Replace with your JSON API endpoint
+  //   const saveDirectory = '/path/to/save/directory'; // Replace with your desired save directory
+  //   const transactionId = '1234'; // Replace with a unique identifier or transaction ID
 
-    download_and_save_json(url, saveDirectory, transactionId);
-  };
+  //   download_and_save_json(url, saveDirectory, transactionId);
+  // };
 
   const download_and_save_json = (url, saveDirectory, transactionId) => {
     // Send an HTTP GET request to the URL
@@ -288,27 +288,27 @@ function Analyze() {
         <Button variant="contained" color="primary" onClick={handleExportTables}>
           Export Tables to Excel
         </Button>
-        <Button variant="contained" color="secondary" onClick={handleDownloadJSON} style={{ marginLeft: '10px' }}>
+        {/* <Button variant="contained" color="secondary" onClick={handleDownloadJSON} style={{ marginLeft: '10px' }}>
           Download JSON
-        </Button>
+        </Button> */}
 
-        {Object.keys(data).map((pageIndex) => (
+        {data && Object.keys(data).map((pageIndex) => (
           <div key={pageIndex}>
             <Typography variant="h4" style={{ textAlign: 'center' }}>
               Page No: {pageIndex}
             </Typography>
-            {renderSection(data[pageIndex].text, 'Text')}
-            {renderSection(data[pageIndex].title, 'Title')}
-            {Object.keys(data[pageIndex].table).map((tableIndex) => (
+            {renderSection(data[pageIndex]?.text, 'Text')}
+            {renderSection(data[pageIndex]?.title, 'Title')}
+            {data[pageIndex]?.table && Object.keys(data[pageIndex].table).map((tableIndex) => (
               <div key={tableIndex}>
                 <Typography variant="h5" style={{ textAlign: 'center', marginBottom: '10px' }}>
                   Table: {parseInt(tableIndex) + 1}
                 </Typography>
-                {renderTable(data[pageIndex].table[tableIndex].table)}
+                {renderTable(data[pageIndex].table[tableIndex]?.table)}
               </div>
             ))}
-            {renderSection(data[pageIndex].list, 'List')}
-            {renderSection(data[pageIndex].figure, 'Figure')}
+            {renderSection(data[pageIndex]?.list, 'List')}
+            {renderSection(data[pageIndex]?.figure, 'Figure')}
           </div>
         ))}
         <div style={{ marginBottom: '50px' }}></div>
