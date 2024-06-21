@@ -1,12 +1,12 @@
 import React, { useEffect, useState, useContext } from 'react';
 import { useHistory } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-import Navbar from './Navbar';
+import Navbar from './Navbar.js';
 import { TextField, Button, Container, FormGroup, Card, CardContent, CardHeader, Box, Typography } from '@mui/material';
 import { FormControlLabel, FormLabel, CircularProgress, Checkbox, IconButton, Tooltip } from '@mui/material';
 import imgs from './Detection.png';
-import InfoIcon from '@mui/icons-material/Info';
-import { useAuth } from '../AuthContext';
+import InfoIcon from '@mui/icons-material/Info.js';
+import { useAuth } from '../AuthContext.js';
 
 function Detection() {
   const [selectedValues, setSelectedValues] = useState([]);

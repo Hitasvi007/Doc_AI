@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
 import { Card, CardContent, CardHeader, Container, Button, Typography, Dialog, DialogTitle, DialogContent, DialogActions, TextField, CircularProgress, Box } from '@mui/material';
 import { makeStyles } from '@mui/styles';
-import Navbar from './Navbar';
+import Navbar from './Navbar.js';
 import { Link, useHistory } from 'react-router-dom';
-import DetectionIcon from '@mui/icons-material/Search';
-import ExtractionIcon from '@mui/icons-material/FileDownload';
-import StatusIcon from '@mui/icons-material/CheckCircle';
-import HelpIcon from '@mui/icons-material/Help';
+import DetectionIcon from '@mui/icons-material/Search.js';
+import ExtractionIcon from '@mui/icons-material/FileDownload.js';
+import StatusIcon from '@mui/icons-material/CheckCircle.js';
+import HelpIcon from '@mui/icons-material/Help.js';
 
 const useStyles = makeStyles({
   container: {

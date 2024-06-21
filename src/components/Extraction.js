@@ -1,11 +1,11 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useHistory } from 'react-router-dom';
-import Home from './Navbar';
+import Home from './Navbar.js';
 import { TextField, Button, Container, CircularProgress, FormGroup, Checkbox } from '@mui/material';
 import { FormControlLabel, FormControl, FormLabel, Card, CardContent, CardHeader, Box } from '@mui/material';
 import imgs from './Processing-1.png';
 import { Typography } from '@mui/material';
-import { useAuth } from '../AuthContext';
+import { useAuth } from '../AuthContext.js';
 
 
 function Extraction() {
@@ -94,9 +94,6 @@ function Extraction() {
         event.preventDefault();
         setIsLoading(true);
         try {
-            const username = 'aman';
-            const password = 'aman@123';
-            const credentials101 = btoa(`${username}:${password}`);
             const response = await fetch(`https://dev-doc-ai-api.smartpulse.cloud/v2/extract`, {
                 method: 'POST',
                 headers: {

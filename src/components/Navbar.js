@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import { AppBar, Box, Toolbar, IconButton, Typography, Menu, Container, Button, MenuItem, Dialog, DialogTitle, DialogContent, DialogActions, TextField, CircularProgress } from '@mui/material';
-import MenuIcon from '@mui/icons-material/Menu';
-import AdbIcon from '@mui/icons-material/Adb';
+import MenuIcon from '@mui/icons-material/Menu.js';
+import AdbIcon from '@mui/icons-material/Adb.js';
 import { Link, useLocation, useHistory } from 'react-router-dom';
-import { useAuth } from '../AuthContext';
+import { useAuth } from '../AuthContext.js';
 
 const Navbar = () => {
   const [anchorElNav, setAnchorElNav] = useState(null);
@@ -53,6 +53,7 @@ const Navbar = () => {
   const pages = [
     { title: 'Detection', path: '/detection' },
     { title: 'Extraction', path: '/extraction' },
+    { title: 'Detract', path: '/detract' },
     { title: 'Status', path: '/status' },
     { title: 'Q&A', path: '/QandA' },
     { title: 'Dashboard', path: '/Dashboard'}

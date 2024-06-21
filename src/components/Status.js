@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
-import Home from './Navbar';
+import Home from './Navbar.js';
 import { TextField, Button, Container, CircularProgress, Card, CardContent, CardHeader, Box } from '@mui/material';
-import { useAuth } from '../AuthContext';
+import { useAuth } from '../AuthContext.js';
 
 function Status() {
     const history = useHistory();
@@ -20,10 +20,6 @@ function Status() {
         event.preventDefault();
         setIsLoading(true);
         try {
-            const username = 'aman';
-            const password = 'aman@123';
-            const credentials101 = btoa(`${username}:${password}`);
-
             const url = `https://dev-doc-ai-api.smartpulse.cloud/v2/status?transaction_id=${transactionId}`;
 
             // Construct request body with transaction_id
