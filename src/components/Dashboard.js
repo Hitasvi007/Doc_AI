@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { TextField, Button, Container } from '@mui/material';
-import Navbar from './Navbar';
-import { useAuth } from '../AuthContext';
+import Navbar from './Navbar.js';
+import { useAuth } from '../AuthContext.js';
 
 
 function Dashboard() {
@@ -19,10 +19,6 @@ function Dashboard() {
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
-      const authUsername = 'aman';
-      const authPassword = 'aman@123';
-      const credentials101 = btoa(`${authUsername}:${authPassword}`);
-
       const url = `https://dev-doc-ai-api.smartpulse.cloud/v2/dashboard_details/${user}`;
 
       const response = await fetch(url, {

@@ -1,16 +1,17 @@
 // import { useState, useEffect } from 'react'
-import Home from './components/Home'
+import Home from './components/Home.js'
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
-import Detection from './components/Detection'
-import Extraction from './components/Extraction'
-import Status from './components/Status'
-import Result from './components/Result';
-import Analyze from './components/Analyze';
-import AnalyzeComponent from './components/AnalyzeComponent';
-import QandA from './components/QandA';
+import Detection from './components/Detection.js'
+import Extraction from './components/Extraction.js'
+import Status from './components/Status.js'
+import Result from './components/Result.js';
+import Analyze from './components/Analyze.js';
+import AnalyzeComponent from './components/AnalyzeComponent.js';
+import QandA from './components/QandA.js';
 import LogViewer from './components/LogViewer.js';
 import Dashboard from './components/Dashboard.js';
 import Details from './components/details.js';
+import Detract from './components/Detract.js';
 import { AuthProvider } from './AuthContext.js';
 
 function App() {
@@ -30,6 +31,7 @@ function App() {
         <Route path="/LogViewer" component={LogViewer} />
         <Route path="/Dashboard" component={Dashboard} />
         <Route path="/details" component={Details} />
+        <Route path="/detract" component={Detract} />
       </Switch>
     </Router>
     </AuthProvider>

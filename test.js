@@ -11,7 +11,7 @@ import Button from '@mui/material/Button';
 import AdbIcon from '@mui/icons-material/Adb';
 import { Link, useLocation } from 'react-router-dom';
 import MenuItem from '@mui/material/MenuItem';
-import * as XLSX from 'xlsx';
+import * as XLSX from 'xlsx'; 
 import Navbar from './Navbar';
 
 function Analyze() {
@@ -29,99 +29,21 @@ function Analyze() {
   };
 
   const handleExportTables = () => {
-    if (!data) {
-      console.error('No data available');
-      return;
-    }
-
-    let tablesExported = false; // Track if any tables were exported
+    if (!data) return;
 
     Object.keys(data).forEach(pageIndex => {
       const pageData = data[pageIndex];
       const workbook = XLSX.utils.book_new();
 
-      if (!pageData.table) {
-        console.error(`No table data found on page ${pageIndex}`);
-        return;
-      }
-
       Object.keys(pageData.table).forEach(tableIndex => {
         const tableData = pageData.table[tableIndex].table;
-
-        if (!tableData) {
-          console.error(`No table data found for table ${tableIndex} on page ${pageIndex}`);
-          return;
-        }
-
-        let parsedTable;
-        try {
-          parsedTable = JSON.parse(tableData);
-        } catch (error) {
-          console.error('Error parsing table data:', error);
-          return; // Skip this table if JSON parsing fails
-        }
-
-        if (!Array.isArray(parsedTable) || parsedTable.length === 0) {
-          console.error(`Parsed table data is not an array or is empty for table ${tableIndex} on page ${pageIndex}`);
-          return; // Skip empty or invalid table data
-        }
-
+        const parsedTable = JSON.parse(tableData);
         const worksheet = XLSX.utils.json_to_sheet(parsedTable);
         XLSX.utils.book_append_sheet(workbook, worksheet, `Table_${parseInt(tableIndex) + 1}`);
-        tablesExported = true; // Mark that we have exported at least one table
       });
-
-      if (workbook.SheetNames.length === 0) {
-        console.error(`No valid tables found for page ${pageIndex}`);
-        return;
-      }
 
       XLSX.writeFile(workbook, `Page_${pageIndex}_Tables.xlsx`);
     });
-
-    if (!tablesExported) {
-      alert('No tables were exported. Please check the data and try again.');
-    }
-  };
-
-  const handleDownloadJSON = () => {
-    const url = 'https://api.example.com/data'; // Replace with your JSON API endpoint
-    const saveDirectory = '/path/to/save/directory'; // Replace with your desired save directory
-    const transactionId = '1234'; // Replace with a unique identifier or transaction ID
-
-    download_and_save_json(url, saveDirectory, transactionId);
-  };
-
-  const download_and_save_json = (url, saveDirectory, transactionId) => {
-    // Send an HTTP GET request to the URL
-    fetch(url)
-      .then(response => {
-        if (!response.ok) {
-          throw new Error(`HTTP error! Status: ${response.status}`);
-        }
-        return response.json();
-      })
-      .then(jsonData => {
-        // Create the filename with the transaction ID
-        const filename = `${transactionId}.json`;
-        const savePath = `${saveDirectory}/${filename}`;
-
-        // Save the JSON data to the file system
-        const jsonDataString = JSON.stringify(jsonData, null, 2);
-        const blob = new Blob([jsonDataString], { type: 'application/json' });
-        const url = window.URL.createObjectURL(blob);
-        const a = document.createElement('a');
-        a.href = url;
-        a.download = filename;
-        document.body.appendChild(a);
-        a.click();
-        document.body.removeChild(a);
-        window.URL.revokeObjectURL(url);
-        console.log(`JSON data saved to ${savePath}`);
-      })
-      .catch(error => {
-        console.error('Error downloading JSON:', error);
-      });
   };
 
   if (!data) {
@@ -155,7 +77,7 @@ function Analyze() {
   // Function to render table data
   const renderTable = (tableData) => {
     if (!tableData) return null; // Handle cases where tableData is undefined or null
-
+  
     let parsedTable;
     try {
       parsedTable = JSON.parse(tableData);
@@ -163,14 +85,13 @@ function Analyze() {
       console.error('Error parsing table data:', error);
       return null; // Handle JSON parse error gracefully
     }
-
+  
     if (!Array.isArray(parsedTable) || parsedTable.length === 0) {
-      console.error('Parsed table data is not an array or is empty');
       return null; // Handle cases where parsedTable is not an array or empty
     }
-
+  
     const headers = Object.keys(parsedTable[0]);
-
+  
     return (
       <table style={{ width: '100%', borderCollapse: 'collapse', marginBottom: '20px' }}>
         <thead>
@@ -196,9 +117,11 @@ function Analyze() {
       </table>
     );
   };
+  
 
   return (
     <>
+    {/* <Navbar/> */}
       <AppBar position="static">
         <Container maxWidth="xl">
           <Toolbar disableGutters>
@@ -255,7 +178,18 @@ function Analyze() {
                   display: { xs: 'block', md: 'none' },
                 }}
               >
-                {/* Add menu items here */}
+                {/* <MenuItem onClick={handleCloseNavMenu} component={Link} to="/analyze/table">
+                  <Typography textAlign="center">Table</Typography>
+                </MenuItem>
+                <MenuItem onClick={handleCloseNavMenu} component={Link} to="/analyze/text">
+                  <Typography textAlign="center">Text</Typography>
+                </MenuItem>
+                <MenuItem onClick={handleCloseNavMenu} component={Link} to="/analyze/list">
+                  <Typography textAlign="center">List</Typography>
+                </MenuItem>
+                <MenuItem onClick={handleCloseNavMenu} component={Link} to="/analyze/image">
+                  <Typography textAlign="center">Image</Typography>
+                </MenuItem> */}
               </Menu>
             </Box>
             <AdbIcon sx={{ display: { xs: 'flex', md: 'none' }, mr: 1 }} />
@@ -277,6 +211,20 @@ function Analyze() {
             >
               DocumentAI
             </Typography>
+            {/* <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
+              <Button onClick={handleCloseNavMenu} sx={{ my: 2, color: 'white', display: 'block' }} component={Link} to="/analyze/table">
+                Table
+              </Button>
+              <Button onClick={handleCloseNavMenu} sx={{ my: 2, color: 'white', display: 'block' }} component={Link} to="/analyze/text">
+                Text
+              </Button>
+              <Button onClick={handleCloseNavMenu} sx={{ my: 2, color: 'white', display: 'block' }} component={Link} to="/analyze/list">
+                List
+              </Button>
+              <Button onClick={handleCloseNavMenu} sx={{ my: 2, color: 'white', display: 'block' }} component={Link} to="/analyze/image">
+                Image
+              </Button>
+            </Box> */}
           </Toolbar>
         </Container>
       </AppBar>
@@ -287,9 +235,6 @@ function Analyze() {
 
         <Button variant="contained" color="primary" onClick={handleExportTables}>
           Export Tables to Excel
-        </Button>
-        <Button variant="contained" color="secondary" onClick={handleDownloadJSON} style={{ marginLeft: '10px' }}>
-          Download JSON
         </Button>
 
         {Object.keys(data).map((pageIndex) => (

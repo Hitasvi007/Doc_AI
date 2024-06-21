@@ -1,8 +1,8 @@
 import React, { useState, useRef } from 'react';
 import { TextField, Button, Container, Grid } from '@mui/material';
-import FileCopyIcon from '@mui/icons-material/FileCopy';
+import FileCopyIcon from '@mui/icons-material/FileCopy.js';
 import { useHistory } from 'react-router-dom';
-import Navbar from './Navbar';
+import Navbar from './Navbar.js';
 import axios from 'axios';
 
 function Result(props) {
@@ -13,8 +13,17 @@ function Result(props) {
 
   const handleDownloadClick = () => {
     const downloadUrl = textFieldRef.current.value;
-    downloadLinkRef.current.href = downloadUrl;
-    downloadLinkRef.current.click();
+
+    // Create a temporary link element
+    const link = document.createElement('a');
+    link.href = downloadUrl;
+    link.setAttribute('download', 'final.json'); // Specify file name here
+    // Append link to the body
+    document.body.appendChild(link);
+    // Programmatically click the link to trigger the download
+    link.click();
+    // Clean up
+    link.parentNode.removeChild(link);
   };
 
   const handleCopyClick = (key, value) => {
@@ -26,6 +35,7 @@ function Result(props) {
   };
 
   const handleAnalyzeClick = () => {
+    const receivedData = props.location.state;
     const configUrl = receivedData.configfile_url;
     const startIndex = configUrl.indexOf('https://bucket-document-ai-dev.s3.amazonaws.com/');
     if (startIndex === -1) {
@@ -35,8 +45,7 @@ function Result(props) {
     const apiUrlPart = configUrl.substring(startIndex + 'https://bucket-document-ai-dev.s3.amazonaws.com/'.length);
 
     // Construct the final API URL
-    // const configfileUrl = `http://localhost:5000/api/${apiUrlPart}`;
-    const configfileUrl = configUrl;
+    const configfileUrl = `http://localhost:5000/api/${apiUrlPart}`;
 
     axios
       .get(configfileUrl, {
@@ -48,6 +57,11 @@ function Result(props) {
       .then((response) => {
         const jsonData = response.data;
         console.log('Fetched JSON data:', jsonData); // Log fetched data
+
+        // Assuming jsonData has a signed_url field
+        const signedUrl = jsonData.signed_url;
+        textFieldRef.current.value = signedUrl; // Set the signed URL in text field
+
         setTimeout(() => {
           history.push({
             pathname: '/analyze',
@@ -61,7 +75,7 @@ function Result(props) {
       });
   };
 
-  const receivedData = props.location?.state ?? {};
+  const receivedData = props.location.state;
   console.log('Received data in Result component:', receivedData); // Log received data
 
   return (

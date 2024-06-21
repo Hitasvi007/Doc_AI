@@ -1,7 +1,7 @@
 import React from 'react';
 import { useLocation } from 'react-router-dom';
 import { Container, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Typography, Box } from '@mui/material';
-import Navbar from './Navbar';
+import Navbar from './Navbar.js';
 
 function Details() {
   const location = useLocation();
