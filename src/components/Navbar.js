@@ -134,7 +134,7 @@ const Navbar = () => {
                     display: 'block',
                     textTransform: 'none',
                     fontWeight: location.pathname === page.path ? 'bold' : 'normal',
-                    borderBottom: location.pathname === page.path ? '2px solid yellow' : 'none',
+                    borderBottom: location.pathname === page.path ? '1px solid yellow' : 'none',
                     transition: 'border-bottom 0.3s ease',
                   }}
                 >

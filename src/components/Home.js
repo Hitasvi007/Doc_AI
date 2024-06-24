@@ -7,6 +7,8 @@ import DetectionIcon from '@mui/icons-material/Search.js';
 import ExtractionIcon from '@mui/icons-material/FileDownload.js';
 import StatusIcon from '@mui/icons-material/CheckCircle.js';
 import HelpIcon from '@mui/icons-material/Help.js';
+import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward.js';
+import DashboardIcon from '@mui/icons-material/Dashboard.js';
 
 const useStyles = makeStyles({
   container: {
@@ -14,7 +16,7 @@ const useStyles = makeStyles({
     justifyContent: 'center',
     alignItems: 'center',
     height: '100vh',
-    backgroundImage: 'url(/path/to/your/background-image.jpg)', // Provide the correct path to your background image
+    // backgroundImage: 'url(/path/to/your/background-image.jpg)',  Provide the correct path to your background image
     backgroundSize: 'cover',
     backgroundPosition: 'center',
     padding: '16px',
@@ -54,7 +56,7 @@ const useStyles = makeStyles({
   },
   icon: {
     marginBottom: '8px',
-    fontSize: '3rem', // Increase icon size for better visibility
+    fontSize: '3rem', 
   },
 });
 
@@ -79,7 +81,7 @@ const Home = () => {
     const authHeader = 'Basic ' + btoa(`${username}:${password}`);
     try {
       const response = await fetch('YOUR_LOGIN_API_URL', {
-        method: 'GET', // Change the method as per your API's requirements
+        method: 'GET', 
         headers: {
           'Authorization': authHeader,
           'Content-Type': 'application/json',
@@ -91,7 +93,7 @@ const Home = () => {
         // Authentication successful
         history.push('/dashboard'); // Redirect to dashboard or any other route
       } else {
-        // Authentication failed
+        
         alert('Login failed. Please check your credentials.');
         setIsLoading(false);
       }
@@ -204,6 +206,52 @@ const Home = () => {
               startIcon={<HelpIcon />}
             >
               Go to Q&A
+            </Button>
+          </CardContent>
+        </Card>
+        <Card className={classes.card}>
+          <CardHeader
+            className={classes.cardHeader}
+            title={
+              <>
+                <ArrowDownwardIcon className={classes.icon} />
+                <Typography variant="h6">Detract</Typography>
+              </>
+            }
+          />
+          <CardContent className={classes.cardContent}>
+            <Button
+              component={Link}
+              to="/detract"
+              variant="contained"
+              color="error"
+              className={classes.button}
+              startIcon={<ArrowDownwardIcon />}
+            >
+              Go to Detract
+            </Button>
+          </CardContent>
+        </Card>
+        <Card className={classes.card}>
+          <CardHeader
+            className={classes.cardHeader}
+            title={
+              <>
+                <DashboardIcon className={classes.icon} />
+                <Typography variant="h6">Dashboard</Typography>
+              </>
+            }
+          />
+          <CardContent className={classes.cardContent}>
+            <Button
+              component={Link}
+              to="/dashboard"
+              variant="contained"
+              color="warning"
+              className={classes.button}
+              startIcon={<DashboardIcon />}
+            >
+              Go to Dashboard
             </Button>
           </CardContent>
         </Card>
